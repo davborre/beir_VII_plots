@@ -1,8 +1,8 @@
 function linear_plotter(plotname,xdata,ydata,group,xtitle,ytitle,title)
 
-g = gramm('x',xdata,'y',ydata,'color',group);
+g = gramm('x',xdata,'y',ydata,'color',group,'linestyle',group);
 g.set_title(title);
-g.set_names('x',xtitle,'y',ytitle);
+g.set_names('x',xtitle,'y',ytitle,'color','','linestyle','');
 
 g.geom_line();
 %g.geom_point();
@@ -22,10 +22,16 @@ g.set_text_options( ...
 g.set_layout_options( ...
     'legend_position', [0.6 0.4 .1 .3]);
 
+g.set_color_options('legend','merge')
+
 g.axe_property( ...
     'YLim',[0.2 2.4],...
+    'YTick', 0.2:0.2:2.4,...
+    'YMinorTick','on',...
     'XLim',[25 90],...
-    'XTick',30:10:90);
+    'XTick',30:10:90,...
+    'XMinorTick','on');
+
 
 figure('Position',[100 100 650 450]);
 g.draw();

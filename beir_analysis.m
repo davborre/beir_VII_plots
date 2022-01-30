@@ -16,28 +16,27 @@ load ERR_EAR_parameters
 
 %% Generate ERR and EAR arrays
 
-beta_f = ERR.IR.BetaF(1);  %BetaF(n) where n 
+beta_f = ERR.IR.BetaF(1);
 beta_m = ERR.IR.BetaM(1);
 
 eta    = ERR.IR.Eta(1);
 gamma  = ERR.IR.Gamma(1);
 
-
 % sex averaged ERR structure for various ages
 % data(i).name is used as for legend and to indicate groups
-data(1).name = 'Age at exposure 30+';
+ERR_data(1).name = 'Age at exposure 30+';
 age_exp      = 30;
-[data(1).risk,data(1).age] = risk_model(...
+[ERR_data(1).risk,ERR_data(1).age] = risk_model(...
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
 
-data(2).name = 'Age at exposure 20';
+ERR_data(2).name = 'Age at exposure 20';
 age_exp      = 20;
-[data(2).risk,data(2).age] = risk_model(...
+[ERR_data(2).risk,ERR_data(2).age] = risk_model(...
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
 
-data(3).name = 'Age at exposure 10';
+ERR_data(3).name = 'Age at exposure 10';
 age_exp      = 10;
-[data(3).risk,data(3).age] = risk_model(...
+[ERR_data(3).risk,ERR_data(3).age] = risk_model(...
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
                             
 
@@ -48,18 +47,21 @@ xdata = [];
 ydata = [];
 group = [];
 
-for i = 1:numel(data)
-    num_datapts = numel(data(i).risk);
+for i = 1:numel(ERR_data)
+    num_datapts = numel(ERR_data(i).risk);
     
-    xdata = [xdata;data(i).age];
-    ydata = [ydata;data(i).risk];
+    xdata = [xdata;ERR_data(i).age];
+    ydata = [ydata;ERR_data(i).risk];
     
     temp_group    = cell(num_datapts,1);
-    temp_group(:) = {data(i).name};
-    group = [group;temp_group];    
+    temp_group(:) = {ERR_data(i).name};
+    group = [group;temp_group];
 end
 
-linear_plotter(filename,xdata,ydata,group,'age','risk','test')
+linear_plotter(...
+    filename,xdata,ydata,group,'Attained age','Excess Relative Risk (1 Sv)','test')
+
+
 %% ERR and EAR models functions
 function [IR,age_attained]=risk_model(beta,eta,gamma,dose,age_exposed)
 %{
@@ -76,8 +78,9 @@ end
 
 % generate linear array for attained age
 age_lb = 5+age_exposed; 
-age_ub = 50+age_exposed;
+age_ub = 60+age_exposed;
 age_attained = linspace(age_lb,age_ub,(age_ub-age_lb)+1)';
+age_attained = age_attained(age_attained(:,1)>=30,:); 
 
 % calculate incidence rate (IR)
 IR = beta .* dose .* exp(gamma * e_adj) .* (age_attained./60).^eta;
