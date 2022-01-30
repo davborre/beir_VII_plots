@@ -60,8 +60,6 @@ for i = 1:numel(data)
 end
 
 linear_plotter(filename,xdata,ydata,group,'age','risk','test')
-
-
 %% ERR and EAR models functions
 function [IR,age_attained]=risk_model(beta,eta,gamma,dose,age_exposed)
 %{
