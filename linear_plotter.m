@@ -4,7 +4,7 @@ g = gramm('x',xdata,'y',ydata);
 g.set_title(title);
 g.set_names('x',xtitle,'y',ytitle);
 
-g.stat_glm();
+%g.stat_glm();
 g.geom_point();
 
 %g.set_color_options('map',[189/255,189/255,189/255]);
@@ -20,6 +20,7 @@ g.set_text_options( ...
     'big_title_scaling',1);
 
 figure('Position',[100 100 450 450]);
+g.draw();
 
 g.export(...
     'file_name',plotname,...
