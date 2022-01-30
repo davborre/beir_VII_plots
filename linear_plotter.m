@@ -1,11 +1,11 @@
-function linear_plotter(plotname,xdata,ydata,xtitle,ytitle,title)
+function linear_plotter(plotname,xdata,ydata,group,xtitle,ytitle,title)
 
-g = gramm('x',xdata,'y',ydata);
+g = gramm('x',xdata,'y',ydata,'color',group);
 g.set_title(title);
 g.set_names('x',xtitle,'y',ytitle);
 
-%g.stat_glm();
-g.geom_point();
+g.geom_line();
+%g.geom_point();
 
 %g.set_color_options('map',[189/255,189/255,189/255]);
 g.set_text_options( ...
@@ -19,7 +19,15 @@ g.set_text_options( ...
     'title_scaling',1,... 
     'big_title_scaling',1);
 
-figure('Position',[100 100 450 450]);
+g.set_layout_options( ...
+    'legend_position', [0.6 0.4 .1 .3]);
+
+g.axe_property( ...
+    'YLim',[0.2 2.4],...
+    'XLim',[25 90],...
+    'XTick',30:10:90);
+
+figure('Position',[100 100 650 450]);
 g.draw();
 
 g.export(...
