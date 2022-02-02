@@ -52,7 +52,7 @@ ylabel_pos(1) = ylabel_pos(1)-1;
 arrayfun(@(s)set(s.YLabel,'Position',ylabel_pos),g.facet_axes_handles);       % #4
 
 
-extensions = {'svg','png','eps'};
+extensions = {'svg','png','eps','pdf'};
 
 for i=1:length(extensions)
     g.export(...
