@@ -50,7 +50,6 @@ arrayfun(@(s)set(s.YAxis,'MinorTickValues',yminortick),g.facet_axes_handles)
 ylabel_pos = g.facet_axes_handles.YLabel.Position;                            
 ylabel_pos(1) = ylabel_pos(1)-1;
 arrayfun(@(s)set(s.YLabel,'Position',ylabel_pos),g.facet_axes_handles);       % #4
-set([g.results.geom_line.line_handle],'LineWidth',4);
 
 
 extensions = {'svg','png','eps'};
