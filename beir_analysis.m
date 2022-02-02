@@ -1,5 +1,16 @@
 %script to recreate figures from BEIR VII report
 clear
+
+%% Directories, homeplate & destination of outputs
+sep        = filesep;
+home_env   = getenv('HOME');
+home_code  = pwd;
+home_out   = [home_code,sep,'figures',sep];
+
+if 7~=exist(home_out,'dir')
+    mkdir(home_out);
+end
+
 %% initialize data
 
 % text strings useful in constructing file names
@@ -9,7 +20,6 @@ git_short_hash = git_full_hash(1:7);
 
 % parameters for risk model
 dose = 1; % radiation dose (Sv)
-
 
 %% import other risk parameters; See BEIR VII, Pg. XX, Table XX
 load ERR_EAR_parameters
@@ -62,7 +72,7 @@ age_exp      = 10;
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
 
 %% Calling plotting functions
-filename = sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'ERR');
+filename = [home_out,sep,sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'ERR')];
 
 num_datapts = sum(cellfun(@numel,{ERR_data.risk}));
 xdata = [];
@@ -100,7 +110,7 @@ linear_plotter(...
     ytickformat,...
     yminortick);
 
-filename = sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'EAR');
+filename = [home_out,sep,sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'EAR')];
 
 xdata = [];
 ydata = [];
