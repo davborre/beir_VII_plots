@@ -64,6 +64,7 @@ age_exp      = 10;
 %% Calling plotting functions
 filename = sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'ERR');
 
+num_datapts = sum(cellfun(@numel,{ERR_data.risk}));
 xdata = [];
 ydata = [];
 group = [];
@@ -71,7 +72,8 @@ group = [];
 for i = 1:numel(ERR_data)
     num_datapts = numel(ERR_data(i).risk);
     
-    xdata = [xdata;ERR_data(i).age];
+    %#ok<*AGROW>; ignore preallocation error in file
+    xdata = [xdata;ERR_data(i).age]; 
     ydata = [ydata;ERR_data(i).risk];
     
     temp_group    = cell(num_datapts,1);
@@ -82,6 +84,8 @@ end
 ylim         = [0.2 2.4];
 ytick        = 0.2:0.2:2.4;
 leg_position = [0.6 0.6 .1 .3];
+ytickformat  = '%.1f';
+yminortick   = 0.3:0.2:2.3;
 linear_plotter(...
     filename,...
     xdata,...
@@ -92,7 +96,9 @@ linear_plotter(...
     '',...
     ylim,...
     ytick,...
-    leg_position);
+    leg_position,...
+    ytickformat,...
+    yminortick);
 
 filename = sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'EAR');
 
@@ -111,9 +117,11 @@ for i = 1:numel(EAR_data)
     group = [group;temp_group];
 end
 
-ylim = [0 75];
-ytick = 0:10:70;
-leg_position = [0.2 0.6 .1 .3];
+ylim         = [0 75];
+ytick        = 0:10:70;
+leg_position = [0.15 0.6 .1 .3];
+ytickformat  = '%g';
+yminortick   = 5:10:75;
 linear_plotter(...
     filename,...
     xdata,...
@@ -124,7 +132,9 @@ linear_plotter(...
     '',...
     ylim,...
     ytick,...
-    leg_position)
+    leg_position,...
+    ytickformat,...
+    yminortick)
 %% ERR and EAR models functions
 function [IR,age_attained]=risk_model(beta,eta,gamma,dose,age_exposed)
 %{
