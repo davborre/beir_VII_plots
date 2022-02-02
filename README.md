@@ -3,7 +3,7 @@
 ## Table of contents ##
 
 - [ERR and EAR models](#err-and-ear-models)
-- [Scripts, functions, and files](#scripts,-functions,-and-files)
+- [Scripts, functions, and files](#scripts-functions-and-files)
 - [Dependencies](#dependencies)
 - [References](#references)
 
@@ -16,18 +16,19 @@
 $ tree
 
 .
-??? ERR_EAR_parameters.mat
-??? README.md
-??? beir_analysis.m
-??? figures
-?�� ??? *.eps
-?�� ??? *.png
-?�� ??? *.svg
-?�� ??? BEIR_VII_Figure_12_1A.pdf
-?�� ??? BEIR_VII_Figure_12_1A.png
-??? linear_plotter.m
-??? risk_model.m
-
+├── ERR_EAR_parameters.mat
+├── README.md
+├── README.md~
+├── beir_analysis.m
+├── figures
+│   ├── *.eps
+│   ├── *.png
+│   ├── *.svg
+│   ├── BEIR_VII_Figure_12_1A.pdf
+│   └── BEIR_VII_Figure_12_1A.png
+├── linear_plotter.m
+├── linear_plotter.m~
+└── risk_model.m
 ```
 1. `ERR_EAR_parameters.mat` - Contains risk model parameters. Values match those listed in BEIR VII Pg. XX 
 2. `beir_analysis.m` - Main script. Makes calls to `linear_plotter.m` and `risk_model.m` functions
