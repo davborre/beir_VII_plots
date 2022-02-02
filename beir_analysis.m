@@ -1,7 +1,7 @@
 %script to recreate figures from BEIR VII report
 clear
 
-%% Directories, homeplate & destination of outputs
+%% directories, homeplate & destination of outputs
 sep        = filesep;
 home_env   = getenv('HOME');
 home_code  = pwd;
@@ -18,23 +18,23 @@ yyyy_mm_dd = datetime('now','format','yyyy_MM_dd');
 [~,git_full_hash] = system('git rev-parse HEAD');
 git_short_hash = git_full_hash(1:7);
 
-% parameters for risk model
+% parameters for risk model:
 dose = 1; % radiation dose (Sv)
 
 %% import other risk parameters; See BEIR VII, Pg. XX, Table XX
 load ERR_EAR_parameters
 
-%% Generate ERR and EAR data for plotting
+%% generate ERR and EAR data for plotting
 
+%%%% ERR Section %%%%
 beta_f = ERR.IR.BetaF(1);
 beta_m = ERR.IR.BetaM(1);
 
 eta    = ERR.IR.Eta(1);
 gamma  = ERR.IR.Gamma(1);
 
-% ERR Section
-% sex averaged ERR structure for various ages
-% data(i).name is used as for legend and to indicate groups
+% sex averaged ERR for various ages
+% data(i).name will be used to indicate groups and in legend of plot
 ERR_data(1).name = 'Age at exposure 30+';
 age_exp      = 30;
 [ERR_data(1).risk,ERR_data(1).age] = risk_model(...
@@ -49,7 +49,7 @@ ERR_data(3).name = 'Age at exposure 10';
 age_exp      = 10;
 [ERR_data(3).risk,ERR_data(3).age] = risk_model(...
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
-% EAR SECTION
+%%%% EAR SECTION %%%%
 beta_f = EAR.IR.BetaF(1);
 beta_m = EAR.IR.BetaM(1);
 
@@ -71,7 +71,7 @@ age_exp      = 10;
 [EAR_data(3).risk,EAR_data(3).age] = risk_model(...
                                 (beta_m+beta_f)/2,eta,gamma,dose,age_exp);
 
-%% Calling plotting functions
+%% call plotting functions
 filename = [home_out,sep,sprintf('%s_%s_%s',yyyy_mm_dd,git_short_hash,'ERR')];
 
 num_datapts = sum(cellfun(@numel,{ERR_data.risk}));
@@ -82,7 +82,7 @@ group = [];
 for i = 1:numel(ERR_data)
     num_datapts = numel(ERR_data(i).risk);
     
-    %#ok<*AGROW>; ignore preallocation error in file
+    %#ok<*AGROW>; ignore preallocation warning in file
     xdata = [xdata;ERR_data(i).age]; 
     ydata = [ydata;ERR_data(i).risk];
     

@@ -21,7 +21,7 @@ g.set_text_options( ...
 g.set_layout_options( ...
     'legend_position',leg_pos);
 
-line_colors = [0 0 0; .5 .5 .5; .8 .8 .8]; %RGB
+line_colors = [0 0 0; .5 .5 .5; .8 .8 .8]; %fractional value; RGB color model
 g.set_color_options('map',line_colors,'legend','merge')
 
 g.axe_property( ...
@@ -50,6 +50,8 @@ arrayfun(@(s)set(s.YAxis,'MinorTickValues',yminortick),g.facet_axes_handles)
 ylabel_pos = g.facet_axes_handles.YLabel.Position;                            
 ylabel_pos(1) = ylabel_pos(1)-1;
 arrayfun(@(s)set(s.YLabel,'Position',ylabel_pos),g.facet_axes_handles);       % #4
+set([g.results.geom_line.line_handle],'LineWidth',4);
+
 
 extensions = {'svg','png','eps'};
 
